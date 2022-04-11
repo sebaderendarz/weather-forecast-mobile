@@ -1,0 +1,60 @@
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:title="@string/general_header">
+
+        <EditTextPreference
+            app:key="defaultLocation"
+            app:title="@string/default_location_title"
+            app:defaultValue="Warsaw"
+            app:useSimpleSummaryProvider="true"/>
+
+        <ListPreference
+            app:key="thermalUnit"
+            app:title="@string/thermal_unit_title"
+            app:entries="@array/thermalUnitReplies"
+            app:entryValues="@array/thermalUnitReplies"
+            app:defaultValue="Celsius"
+            app:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            app:key="allowRefreshOnSwipeUp"
+            app:title="@string/refresh_on_swipe_up_title"
+            app:summaryOn="@string/refresh_on_swipe_up_summary_on"
+            app:summaryOff="@string/refresh_on_swipe_up_summary_off" />
+
+        <SwitchPreferenceCompat
+            app:key="notSyncAutomatically"
+            app:title="@string/keep_forecast_title"
+            app:summaryOn="@string/keep_forecast_summary_on"
+            app:summaryOff="@string/keep_forecast_summary_off"
+            app:dependency="allowRefreshOnSwipeUp"/>
+
+        <ListPreference
+            app:key="refreshAfterPeriod"
+            app:title="@string/refresh_period_title"
+            app:entries="@array/refreshPeriodReplies"
+            app:entryValues="@array/refreshPeriodReplies"
+            app:defaultValue="4 hours"
+            app:useSimpleSummaryProvider="true"
+            app:dependency="notSyncAutomatically"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/notifications_header">
+
+        <SwitchPreferenceCompat
+            app:key="errorToasts"
+            app:title="@string/error_toasts_title"
+            app:summaryOn="@string/error_toasts_summary_on"
+            app:summaryOff="@string/error_toasts_summary_off" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
