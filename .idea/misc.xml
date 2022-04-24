@@ -3,14 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.3675" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/drawable/weather_hour_layout_border.xml" value="0.335" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout-land/fragment_weather_details.xml" value="0.31040564373897706" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout-sw600dp/fragment_weather_details.xml" value="0.275" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout-sw600dp/fragment_weather_hour_details.xml" value="0.275" />
         <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/activity_search.xml" value="0.36666666666666664" />
         <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/fragment_favourites.xml" value="0.36666666666666664" />
-        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/fragment_landing.xml" value="0.25416666666666665" />
         <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/fragment_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/fragment_weather_details.xml" value="0.25" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/fragment_weather_details.xml" value="0.2" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/layout/fragment_weather_hour_details.xml" value="0.36666666666666664" />
         <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
-        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/xml/root_preferences.xml" value="0.25416666666666665" />
+        <entry key="..\:/Coding/android-studio/PAM_SEM_6/WeatherForecast/app/src/main/res/xml/root_preferences.xml" value="0.1" />
       </map>
     </option>
   </component>

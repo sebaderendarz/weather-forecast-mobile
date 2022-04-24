@@ -50,7 +50,7 @@
         app:title="@string/notifications_header">
 
         <SwitchPreferenceCompat
-            app:key="errorToasts"
+            app:key="showNotifications"
             app:title="@string/error_toasts_title"
             app:summaryOn="@string/error_toasts_summary_on"
             app:summaryOff="@string/error_toasts_summary_off" />
