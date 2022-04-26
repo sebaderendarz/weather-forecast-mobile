@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 
+// TODO
+// 1.
+
 class SettingsManager(context: Context) {
     private val KEY_DEFAULT_LOCATION = "defaultLocation";
     private val KEY_THERMAL_UNIT = "thermalUnit";

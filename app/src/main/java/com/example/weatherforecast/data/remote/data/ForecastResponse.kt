@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class ForecastResponse(
     val lat: Double,
     val lon: Double,
-    val hourly: List<HourForecast>
+    val hourly: List<HourForecast>,
+    val timezone_offset: Int
 )

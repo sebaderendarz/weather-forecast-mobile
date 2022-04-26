@@ -1,13 +1,20 @@
 package com.example.weatherforecast
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.weatherforecast.data.remote.WeatherApiService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+
 
 // TODO
 // One data object in the main activity. Pass this data through constructor
@@ -22,25 +29,11 @@ class MainActivity : AppCompatActivity() {
     private val homeFragment = HomeFragment()
     private val settingsFragment = SettingsFragment()
     var settings: SettingsManager? = null
-    private val mainScope = MainScope()
-    private val service = WeatherApiService.create()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         settings = SettingsManager(applicationContext)
-
-        mainScope.launch {
-            kotlin.runCatching {
-                service.getForecast(52.231956,21.006725, "metric")
-            }.onSuccess {
-                println(it)
-            }.onFailure {
-                println("Request failed")
-            }
-        }
-
         if (savedInstanceState == null) {
             // https://stackoverflow.com/questions/48806201/why-is-oncreateview-in-fragment-called-twice-after-device-rotation-in-android
             supportFragmentManager.beginTransaction().apply {
@@ -87,6 +80,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        // Clear focus on EditText field when clicked outside this field.
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v: View? = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm: InputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     private fun onSwipeRefresh(){

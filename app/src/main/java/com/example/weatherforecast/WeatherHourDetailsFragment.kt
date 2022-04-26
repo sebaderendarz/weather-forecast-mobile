@@ -5,55 +5,63 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.weatherforecast.data.remote.data.HourForecast
+import com.example.weatherforecast.databinding.FragmentWeatherHourDetailsBinding
+import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [WeatherHourDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class WeatherHourDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val WEATHER_ICON_BASE_URL = "https://openweathermap.org/img/wn/"
+    private var _binding: FragmentWeatherHourDetailsBinding? = null;
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_weather_hour_details, container, false)
+    ): View {
+        _binding = FragmentWeatherHourDetailsBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WeatherHourDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WeatherHourDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    fun updateFragmentContent(weatherDetails: HourForecast, timezoneOffset: Int, units: String) {
+        setHour(weatherDetails.dt, timezoneOffset)
+        setTemperature(weatherDetails.temp, units)
+        setImage(weatherDetails.weather[0].icon)
+        setWindSpeed(weatherDetails.wind_speed, units)
+    }
+
+    private fun setHour(timestamp: Long, timezoneOffset: Int){
+        val sdf = SimpleDateFormat("h:00 a")
+        binding.hour.text = sdf.format(Date((timestamp + timezoneOffset) * 1000))
+    }
+
+    private fun setTemperature(temperature: Float, units: String) {
+        val roundedTemp = (temperature*10).toInt().toFloat()/10
+        when (units) {
+            "imperial" -> ("${roundedTemp}F").also { binding.temperature.text = it }
+            "metric" -> ("${roundedTemp}°C").also { binding.temperature.text = it }
+            else -> ("${roundedTemp}K").also { binding.temperature.text = it }
+        }
+    }
+
+    private fun setImage(imageName: String) {
+        val url = "$WEATHER_ICON_BASE_URL$imageName@2x.png"
+        Picasso.get().load(url).into(binding.imageView)
+    }
+
+    private fun setWindSpeed(windSpeed: Float, units: String){
+        val roundedSpeed = (windSpeed*10).toInt().toFloat()/10
+        when(units){
+            "imperial" -> ("${roundedSpeed}mi/h").also { binding.windSpeed.text = it }
+            "metric" -> ("${convertSpeedToKmPerHour(windSpeed)}km/h").also { binding.windSpeed.text = it }
+            else -> ("${convertSpeedToKmPerHour(windSpeed)}km/h").also { binding.windSpeed.text = it }
+        }
+    }
+
+    private fun convertSpeedToKmPerHour(speed: Float): String{
+        return ((speed * 3600 / 100).toInt().toFloat() / 10).toString()
     }
 }
