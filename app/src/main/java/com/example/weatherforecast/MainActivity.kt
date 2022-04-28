@@ -10,30 +10,23 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.weatherforecast.data.remote.WeatherApiService
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-
-
-// TODO
-// One data object in the main activity. Pass this data through constructor
-// to fragments or add methods allowing you to take data stored
-// in activity from fragments or update this data from fragments (e.g no longer in favourites).
-// You can call sth like "getActivity"? from fragment to get access to activity
-// to be able to call methods in activity, but make sure if it is the easiest way.
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var androidViewModel: WeatherForecastAndroidViewModel
     private val favouritesFragment = FavouritesFragment()
     private val homeFragment = HomeFragment()
     private val settingsFragment = SettingsFragment()
-    var settings: SettingsManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        settings = SettingsManager(applicationContext)
+        println("activity on create called")
+
+        androidViewModel = ViewModelProvider(this).get(WeatherForecastAndroidViewModel::class.java)
+
         if (savedInstanceState == null) {
             // https://stackoverflow.com/questions/48806201/why-is-oncreateview-in-fragment-called-twice-after-device-rotation-in-android
             supportFragmentManager.beginTransaction().apply {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import com.example.weatherforecast.data.remote.data.HourForecast
 import com.example.weatherforecast.data.remote.data.WeatherDetailsContent
 import com.example.weatherforecast.databinding.FragmentWeatherDetailsBinding
@@ -20,9 +21,32 @@ private const val ARG_OBJECT = "object"
 // 4. Default value should be the same as search results, not some dummy data.
 // 5. Missing "Add to favourites" logic.
 
+// TODO IDEA - favourites logic for search results
+// Add variable "isSearchInFavourites" to viewModel.
+// After each SEARCH request check if newly fetched location is in favourites and change the value
+// of isSearchInFavourites accordingly. Add observer for this variable in HomeFragement and method
+// changing the start to WeatherDetailsView. Method the same as updateContent().
+
+
+// TODO IDEA - add/remove from favourites logic
+// Add a method like "statusChanged" to viewModel and add onClickListener() for favouritesButton
+// in WeatherDetailsFragment. "statusChanged" should take locationName as a parameter. Logic should
+// be implemented in the viewModel. Remember to check if "isSearchInFavourites" should be changed too.
+// In the worst case observer in HomeFragment will want to change the state of a button to the state
+// that this button was already changed to when clicked.
+
+
+// Other things:
+// 1. Default location on app start.
+// 2. Settings logic.
+// 3. Unit type seems to not work now
+// 4. Fix HourComponent styling. Maybe set a fixed size of this component? or add maxSize constraint.
+// 5. Layouts for version on tablets.
+
 
 class WeatherDetailsFragment : Fragment() {
 
+    private lateinit var androidViewModel: WeatherForecastAndroidViewModel
     private val WEATHER_ICON_BASE_URL = "https://openweathermap.org/img/wn/"
     private var _binding: FragmentWeatherDetailsBinding? = null;
     private val binding get() = _binding!!
@@ -33,13 +57,13 @@ class WeatherDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
+        androidViewModel = ViewModelProvider(requireActivity()).get(WeatherForecastAndroidViewModel::class.java)
 
+        _binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
         binding.favouriteButton.setOnClickListener {
             println("Favourite button clicked")
             println(weatherForecastData)
         }
-
         return binding.root
     }
 
