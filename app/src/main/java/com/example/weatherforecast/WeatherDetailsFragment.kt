@@ -16,8 +16,6 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-private const val ARG_OBJECT = "object"
-
 
 // TODO it looks that favourite locations are not saved to and read from the local storage
 
@@ -116,9 +114,6 @@ class WeatherDetailsFragment() : Fragment() {
         setTemperature(weatherDetails.forecast.hourly[0].temp, weatherDetails.units)
         setImage(weatherDetails.forecast.hourly[0].weather[0].icon)
         binding.weatherType.text = weatherDetails.forecast.hourly[0].weather[0].main
-        // TODO !!! investigate why it fails to update hours in favourites view
-        // Think over if it is possible to remove item from viewPager on fly
-        // when star button clicked.
         updateHourlyForecast(weatherDetails.forecast.hourly.subList(1, 25), weatherDetails.forecast.timezone_offset, weatherDetails.units)
         if (androidViewModel.checkIfLocationInFavourites(weatherDetails.locationName)){
             setFullStarButton()

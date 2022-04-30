@@ -16,6 +16,10 @@ class WeatherHourDetailsFragment : Fragment() {
     private val WEATHER_ICON_BASE_URL = "https://openweathermap.org/img/wn/"
     private var _binding: FragmentWeatherHourDetailsBinding? = null;
     private val binding get() = _binding!!
+    var hourForecast: HourForecast? = null;
+    var tzOffset: Int? = null;
+    var measureUnits: String? = null;
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,14 +27,22 @@ class WeatherHourDetailsFragment : Fragment() {
     ): View {
         _binding = FragmentWeatherHourDetailsBinding.inflate(inflater, container, false)
 
+        if (hourForecast == null || tzOffset == null || measureUnits == null) return binding.root
+        updateFragmentContent(hourForecast!!, tzOffset!!, measureUnits!!)
+
         return binding.root
     }
 
     fun updateFragmentContent(weatherDetails: HourForecast, timezoneOffset: Int, units: String) {
-        setHour(weatherDetails.dt, timezoneOffset)
-        setTemperature(weatherDetails.temp, units)
-        setImage(weatherDetails.weather[0].icon)
-        setWindSpeed(weatherDetails.wind_speed, units)
+        hourForecast = weatherDetails
+        tzOffset = timezoneOffset
+        measureUnits = units
+        if (_binding != null) {
+            setHour(weatherDetails.dt, timezoneOffset)
+            setTemperature(weatherDetails.temp, units)
+            setImage(weatherDetails.weather[0].icon)
+            setWindSpeed(weatherDetails.wind_speed, units)
+        }
     }
 
     private fun setHour(timestamp: Long, timezoneOffset: Int){

@@ -10,8 +10,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weatherforecast.data.remote.data.WeatherDetailsContent
 
-private const val ARG_OBJECT = "object"
-
 
 class FavouritesFragment : Fragment() {
     lateinit var androidViewModel: WeatherForecastAndroidViewModel
@@ -23,7 +21,7 @@ class FavouritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        configureAndroidViewModel()
+        androidViewModel = ViewModelProvider(requireActivity()).get(WeatherForecastAndroidViewModel::class.java)
         return inflater.inflate(R.layout.fragment_favourites, container, false)
     }
 
@@ -38,15 +36,6 @@ class FavouritesFragment : Fragment() {
         viewPager = view.findViewById(R.id.favouritesPager)
         viewPager.adapter = favouritesAdapter
     }
-
-    private fun configureAndroidViewModel(){
-        androidViewModel = ViewModelProvider(requireActivity()).get(WeatherForecastAndroidViewModel::class.java)
-//        androidViewModel.favouriteLocationsForecast.observe(viewLifecycleOwner) {
-//            favouritesAdapter = FavouritesAdapter(this)
-//            viewPager.adapter = favouritesAdapter
-//        }
-    }
-
 }
 
 class FavouritesAdapter(val fragment: FavouritesFragment, private val favouriteLocations: List<WeatherDetailsContent>) : FragmentStateAdapter(fragment) {
@@ -58,22 +47,4 @@ class FavouritesAdapter(val fragment: FavouritesFragment, private val favouriteL
         fragment.weatherForecastData = favouriteLocations[position]
         return fragment
     }
-
-    // I got "fragment already created". Don't know how it should work...
-//    override fun getItemCount(): Int {
-//        println("getItemsCount called")
-//        if (fragment.androidViewModel.favouriteLocationsForecast.value != null) {
-//            return fragment.androidViewModel.favouriteLocationsForecast.value!!.size
-//        }
-//        return 0
-//    }
-//
-//    override fun createFragment(position: Int): Fragment {
-//        println("createFragment called")
-//        val weatherDetailsFragment = WeatherDetailsFragment()
-//        if (fragment.androidViewModel.favouriteLocationsForecast.value != null && fragment.androidViewModel.favouriteLocationsForecast.value!!.size < position){
-//            weatherDetailsFragment.updateFragmentContent(fragment.androidViewModel.favouriteLocationsForecast.value!!.elementAt(position))
-//        }
-//        return fragment
-//    }
 }
