@@ -1,5 +1,6 @@
 package com.example.weatherforecast
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,24 +18,8 @@ import kotlinx.serialization.json.Json
 
 private const val ARG_OBJECT = "object"
 
-// TODO
-// 4. Default value should be the same as search results, not some dummy data.
-// 5. Missing "Add to favourites" logic.
 
-// TODO IDEA - favourites logic for search results
-// Add variable "isSearchInFavourites" to viewModel.
-// After each SEARCH request check if newly fetched location is in favourites and change the value
-// of isSearchInFavourites accordingly. Add observer for this variable in HomeFragement and method
-// changing the start to WeatherDetailsView. Method the same as updateContent().
-
-
-// TODO IDEA - add/remove from favourites logic
-// Add a method like "statusChanged" to viewModel and add onClickListener() for favouritesButton
-// in WeatherDetailsFragment. "statusChanged" should take locationName as a parameter. Logic should
-// be implemented in the viewModel. Remember to check if "isSearchInFavourites" should be changed too.
-// In the worst case observer in HomeFragment will want to change the state of a button to the state
-// that this button was already changed to when clicked.
-
+// TODO it looks that favourite locations are not saved to and read from the local storage
 
 // Other things:
 // 1. Default location on app start.
@@ -44,14 +29,19 @@ private const val ARG_OBJECT = "object"
 // 5. Layouts for version on tablets.
 
 
-class WeatherDetailsFragment : Fragment() {
+class WeatherDetailsFragment() : Fragment() {
 
     private lateinit var androidViewModel: WeatherForecastAndroidViewModel
     private val WEATHER_ICON_BASE_URL = "https://openweathermap.org/img/wn/"
     private var _binding: FragmentWeatherDetailsBinding? = null;
     private val binding get() = _binding!!
     private val weatherForecastKey = "weatherForecast"
-    private var weatherForecastData: WeatherDetailsContent?  = null
+    var weatherForecastData: WeatherDetailsContent?  = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        println("onCreate in WeatherDetails Fragment called")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,19 +50,37 @@ class WeatherDetailsFragment : Fragment() {
         androidViewModel = ViewModelProvider(requireActivity()).get(WeatherForecastAndroidViewModel::class.java)
 
         _binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
-        binding.favouriteButton.setOnClickListener {
-            println("Favourite button clicked")
-            println(weatherForecastData)
-        }
+        configureBindingListeners()
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //println("new view created")
-        arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-            val temperature: TextView = view.findViewById(R.id.temperature)
-            temperature.text = getInt(ARG_OBJECT).toString() + "F"
+    private fun configureBindingListeners(){
+        binding.favouriteButton.setOnClickListener {
+            if (weatherForecastData != null) {
+                if (binding.favouriteButton.tag == "full") {
+                    setOutlinedStarButton()
+                    androidViewModel.removeLocationFromFavourites(weatherForecastData!!)
+                }else{
+                    setFullStarButton()
+                    androidViewModel.addLocationToFavourites(weatherForecastData!!)
+                }
+            }
         }
+    }
+
+    private fun setFullStarButton(){
+        binding.favouriteButton.setImageResource(R.drawable.ic_baseline_star_24)
+        binding.favouriteButton.tag = "full"
+    }
+
+    private fun setOutlinedStarButton(){
+        binding.favouriteButton.setImageResource(R.drawable.ic_baseline_star_outline_24)
+        binding.favouriteButton.tag = "outline"
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        weatherForecastData?.let { updateFragmentContent(it) }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -108,7 +116,15 @@ class WeatherDetailsFragment : Fragment() {
         setTemperature(weatherDetails.forecast.hourly[0].temp, weatherDetails.units)
         setImage(weatherDetails.forecast.hourly[0].weather[0].icon)
         binding.weatherType.text = weatherDetails.forecast.hourly[0].weather[0].main
+        // TODO !!! investigate why it fails to update hours in favourites view
+        // Think over if it is possible to remove item from viewPager on fly
+        // when star button clicked.
         updateHourlyForecast(weatherDetails.forecast.hourly.subList(1, 25), weatherDetails.forecast.timezone_offset, weatherDetails.units)
+        if (androidViewModel.checkIfLocationInFavourites(weatherDetails.locationName)){
+            setFullStarButton()
+        } else {
+            setOutlinedStarButton()
+        }
     }
 
     private fun setTemperature(temperature: Float, units: String) {

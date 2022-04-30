@@ -33,6 +33,7 @@ class HomeFragment : Fragment() {
         } else {
             weatherDetailsFragment = childFragmentManager.findFragmentById(R.id.weatherDetailsLayout) as WeatherDetailsFragment
         }
+
         configureAndroidViewModel()
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         configureBindingListeners()

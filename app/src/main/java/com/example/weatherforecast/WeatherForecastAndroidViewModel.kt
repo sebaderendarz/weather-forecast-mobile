@@ -16,6 +16,7 @@ import kotlinx.serialization.json.encodeToStream
 // Here we have data. Add observers in activity and fragments that will update view when values change.
 // https://www.youtube.com/watch?v=whAVI1vTOko
 
+
 class WeatherForecastAndroidViewModel(application: Application) : AndroidViewModel(application) {
     private val FILE_NAME_DEFAULT_LOCATION = "defaultLocation.json"
     private val FILE_NAME_FAVOURITE_LOCATIONS = "favouriteLocations.json"
@@ -24,18 +25,12 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     private val app: Application = application
     var defaultLocation = MutableLiveData<WeatherDetailsContent>()
     var currentSearchLocation = MutableLiveData<WeatherDetailsContent>()
-    var isSearchInFavourites = MutableLiveData<Boolean>()
     var favouriteLocationsForecast = MutableLiveData<List<WeatherDetailsContent>>()
 
     init {
         defaultLocation.value = takeDefaultLocationDataFromStorage()
         currentSearchLocation.value = defaultLocation.value
         favouriteLocationsForecast.value = takeFavouriteLocationsDataFromStorage()
-        if (defaultLocation.value != null) {
-            isSearchInFavourites.value = checkIfLocationInFavourites(defaultLocation.value!!.locationName)
-        }else{
-            isSearchInFavourites.value = false
-        }
     }
 
     override fun onCleared() {
@@ -125,11 +120,23 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
 //    }
 
 
-    private fun checkIfLocationInFavourites(locationName: String): Boolean{
+    fun checkIfLocationInFavourites(locationName: String): Boolean{
         for (i in favouriteLocationsForecast.value?.indices!!){
             if (favouriteLocationsForecast.value!![i].locationName == locationName) return true
         }
         return false
+    }
+
+    fun addLocationToFavourites(locationForecast: WeatherDetailsContent){
+        val filteredLocations: List<WeatherDetailsContent>? = favouriteLocationsForecast.value?.filter { item -> item.locationName != locationForecast.locationName }
+        val mutableListLocations = filteredLocations?.toMutableList()
+        mutableListLocations?.add(locationForecast)
+        favouriteLocationsForecast.value = mutableListLocations?.toList()
+        println(favouriteLocationsForecast.value)
+    }
+
+    fun removeLocationFromFavourites(locationForecast: WeatherDetailsContent){
+        favouriteLocationsForecast.value = favouriteLocationsForecast.value?.filter { item -> item.locationName != locationForecast.locationName }
     }
 
     fun searchLocationForecast(location: String, requestType: RequestType){
