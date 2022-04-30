@@ -1,13 +1,12 @@
 package com.example.weatherforecast
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.example.weatherforecast.data.remote.data.HourForecast
 import com.example.weatherforecast.data.remote.data.WeatherDetailsContent
 import com.example.weatherforecast.databinding.FragmentWeatherDetailsBinding
@@ -23,15 +22,14 @@ import kotlinx.serialization.json.Json
 // 1. Default location on app start.
 // 2. Settings logic.
 // 3. Unit type seems to not work now
-// 4. Fix HourComponent styling. Maybe set a fixed size of this component? or add maxSize constraint.
 // 5. Layouts for version on tablets.
 
 
-class WeatherDetailsFragment() : Fragment() {
+class WeatherDetailsFragment : Fragment() {
 
     private lateinit var androidViewModel: WeatherForecastAndroidViewModel
     private val WEATHER_ICON_BASE_URL = "https://openweathermap.org/img/wn/"
-    private var _binding: FragmentWeatherDetailsBinding? = null;
+    private var _binding: FragmentWeatherDetailsBinding? = null
     private val binding get() = _binding!!
     private val weatherForecastKey = "weatherForecast"
     var weatherForecastData: WeatherDetailsContent?  = null
@@ -45,7 +43,7 @@ class WeatherDetailsFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        androidViewModel = ViewModelProvider(requireActivity()).get(WeatherForecastAndroidViewModel::class.java)
+        androidViewModel = ViewModelProvider(requireActivity())[WeatherForecastAndroidViewModel::class.java]
 
         _binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
         configureBindingListeners()
@@ -59,11 +57,19 @@ class WeatherDetailsFragment() : Fragment() {
                 if (binding.favouriteButton.tag == "full") {
                     setOutlinedStarButton()
                     androidViewModel.removeLocationFromFavourites(weatherForecastData!!)
+                    removeFromFavouriteLocationsInAdapter()
                 }else{
                     setFullStarButton()
                     androidViewModel.addLocationToFavourites(weatherForecastData!!)
                 }
             }
+        }
+    }
+
+    private fun removeFromFavouriteLocationsInAdapter(){
+        val favouritesPager: ViewPager2? = activity?.findViewById(R.id.favouritesPager)
+        if (favouritesPager != null) {
+            (favouritesPager.adapter as FavouritesAdapter).removeFragment(weatherForecastData!!.locationName)
         }
     }
 
@@ -107,7 +113,7 @@ class WeatherDetailsFragment() : Fragment() {
     fun updateFragmentContent(weatherDetails: WeatherDetailsContent) {
         if (weatherDetails.forecast.hourly.size < 25) {
             // TODO display error message toast?
-            return;
+            return
         }
         weatherForecastData = weatherDetails
         binding.cityName.text = weatherDetails.locationName

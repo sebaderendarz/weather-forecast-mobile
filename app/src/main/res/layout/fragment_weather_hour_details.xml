@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/hourDetailsLayout"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@drawable/weather_hour_layout_border"
         tools:context=".WeatherHourDetailsFragment">
 
         <TextView
             android:id="@+id/hour"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="22dp"
             android:text="12:00 AM"
             android:textAlignment="center"
             android:textSize="18sp"
@@ -26,11 +26,9 @@
 
         <TextView
             android:id="@+id/temperature"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="29dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="30dp"
             android:text="33.0F"
             android:textAlignment="center"
             android:textSize="24sp"
@@ -42,9 +40,7 @@
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="39dp"
             android:layout_marginTop="14dp"
-            android:layout_marginEnd="39dp"
             android:src="@drawable/ic_baseline_wb_sunny_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,11 +48,9 @@
 
         <TextView
             android:id="@+id/windSpeed"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="29dp"
             android:layout_marginTop="17dp"
-            android:layout_marginEnd="29dp"
             android:layout_marginBottom="16dp"
             android:text="10.8km/h"
             android:textAlignment="center"
@@ -64,5 +58,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

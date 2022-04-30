@@ -6,11 +6,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.weatherforecast.data.remote.WeatherApiService
 import com.example.weatherforecast.data.remote.data.WeatherDetailsContent
+import com.google.gson.Gson
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
 
 // Here we have data. Add observers in activity and fragments that will update view when values change.
@@ -86,8 +90,32 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
 
     private fun takeFavouriteLocationsDataFromStorage(): List<WeatherDetailsContent> {
         return try {
+            var fileInputStream: FileInputStream? = null
+            fileInputStream =
+                getApplication<Application>().openFileInput(FILE_NAME_FAVOURITE_LOCATIONS)
+            val inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
+            val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+            val stringBuilder: StringBuilder = StringBuilder()
+            var text: String? = null
+            while (run {
+                    text = bufferedReader.readLine()
+                    text
+                } != null) {
+                stringBuilder.append(text)
+            }
+            val gson = Gson()
+            return gson.fromJson(stringBuilder.toString(), BaseWeather::class.java)
+        } catch (e: java.lang.Exception){
+            println(e.message)
+            listOf()
+        }
+
+
+        return try {
             // Let's see if it will read all favourite locations at once :)
             // Empty list is read properly. How it goes when list is not empty?
+            println(app.filesDir)
+            app.filesDir.listFiles().map { println(it.name) }
             val files = app.filesDir.listFiles()
             val resultList: List<List<WeatherDetailsContent>> =
                 files?.filter { it.canRead() && it.isFile && it.name == FILE_NAME_FAVOURITE_LOCATIONS }
