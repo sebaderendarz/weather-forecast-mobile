@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.InputStreamReader
+import java.time.Instant
 
 
 // Here we have data. Add observers in activity and fragments that will update view when values change.
@@ -20,8 +21,8 @@ import java.io.InputStreamReader
 
 
 class WeatherForecastAndroidViewModel(application: Application) : AndroidViewModel(application) {
-    private val FILE_NAME_DEFAULT_LOCATION = "defaultLocation.json"
-    private val FILE_NAME_FAVOURITE_LOCATIONS = "favouriteLocations.json"
+    private val filenameDefaultLocation = "defaultLocation.json"
+    private val filenameFavouriteLocations = "favouriteLocations.json"
     private val apiService = WeatherApiService.create()
     val settings: SettingsManager = SettingsManager(application)
     var defaultLocation = MutableLiveData<WeatherDetailsContent>()
@@ -50,7 +51,7 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                 val gson = Gson()
                 val locationsForecast = gson.toJson(defaultLocation.value)
                 val fileOutputStream = getApplication<Application>().openFileOutput(
-                    FILE_NAME_DEFAULT_LOCATION,
+                    filenameDefaultLocation,
                     MODE_PRIVATE
                 )
                 fileOutputStream.write(locationsForecast.toByteArray())
@@ -67,7 +68,7 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
             val gson = Gson()
             val locationsForecast = gson.toJson(favouriteLocationsForecast.value)
             val fileOutputStream = getApplication<Application>().openFileOutput(
-                FILE_NAME_FAVOURITE_LOCATIONS,
+                filenameFavouriteLocations,
                 MODE_PRIVATE
             )
             fileOutputStream.write(locationsForecast.toByteArray())
@@ -80,7 +81,7 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     private fun takeDefaultLocationDataFromStorage(): WeatherDetailsContent? {
         return try {
             val fileInputStream: FileInputStream? =
-                getApplication<Application>().openFileInput(FILE_NAME_DEFAULT_LOCATION)
+                getApplication<Application>().openFileInput(filenameDefaultLocation)
             val inputStreamReader = InputStreamReader(fileInputStream)
             val bufferedReader = BufferedReader(inputStreamReader)
             val stringBuilder: StringBuilder = StringBuilder()
@@ -106,7 +107,7 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     private fun takeFavouriteLocationsDataFromStorage(): List<WeatherDetailsContent> {
         return try {
             val fileInputStream: FileInputStream? =
-                getApplication<Application>().openFileInput(FILE_NAME_FAVOURITE_LOCATIONS)
+                getApplication<Application>().openFileInput(filenameFavouriteLocations)
             val inputStreamReader = InputStreamReader(fileInputStream)
             val bufferedReader = BufferedReader(inputStreamReader)
             val stringBuilder: StringBuilder = StringBuilder()
@@ -223,6 +224,17 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                     favouriteLocationsForecast.value!![index].locationName,
                     RequestType.FAVOURITE
                 )
+            }
+        }
+    }
+
+    fun refreshLocationsForecastsIfAutoRefreshEnabled(){
+        if (settings.syncAutomatically){
+            if (favouriteLocationsForecast.value != null && favouriteLocationsForecast.value!!.isNotEmpty()){
+                val currentTimestamp = Instant.now().epochSecond
+                if (favouriteLocationsForecast.value!![0].forecast.hourly[0].dt + settings.refreshAfterPeriod < currentTimestamp){
+                    refreshLocationsForecasts()
+                }
             }
         }
     }

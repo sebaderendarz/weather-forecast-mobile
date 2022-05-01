@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         println("activity on create called")
 
         configureAndroidViewModel()
+        androidViewModel.refreshLocationsForecastsIfAutoRefreshEnabled()
 
         if (savedInstanceState == null) {
             // https://stackoverflow.com/questions/48806201/why-is-oncreateview-in-fragment-called-twice-after-device-rotation-in-android
@@ -90,6 +91,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        androidViewModel.refreshLocationsForecastsIfAutoRefreshEnabled()
         return super.onOptionsItemSelected(item);
     }
 
@@ -113,7 +115,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun onSwipeRefresh() {
         println("SWIPE REFRESH INVOKED - fetch newer information about locations")
-        androidViewModel.refreshLocationsForecasts()
+        if (androidViewModel.settings.allowRefreshOnSwipeUp) {
+            androidViewModel.refreshLocationsForecasts()
+        } else {
+            println("display a toast saying that swipe on refresh disabled")
+        }
     }
 
     override fun onStop() {

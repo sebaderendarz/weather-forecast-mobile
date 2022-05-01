@@ -13,7 +13,7 @@ import java.util.*
 
 class WeatherHourDetailsFragment : Fragment() {
 
-    private val WEATHER_ICON_BASE_URL = "https://openweathermap.org/img/wn/"
+    private val weatherIconBaseUrl = "https://openweathermap.org/img/wn/"
     private var _binding: FragmentWeatherHourDetailsBinding? = null;
     private val binding get() = _binding!!
     var hourForecast: HourForecast? = null;
@@ -60,7 +60,7 @@ class WeatherHourDetailsFragment : Fragment() {
     }
 
     private fun setImage(imageName: String) {
-        val url = "$WEATHER_ICON_BASE_URL$imageName@2x.png"
+        val url = "$weatherIconBaseUrl$imageName@2x.png"
         Picasso.get().load(url).into(binding.imageView)
     }
 
