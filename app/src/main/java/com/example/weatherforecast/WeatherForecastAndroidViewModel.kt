@@ -7,11 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.weatherforecast.data.remote.WeatherApiService
 import com.example.weatherforecast.data.remote.data.WeatherDetailsContent
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
-import kotlinx.serialization.json.encodeToStream
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.InputStreamReader
@@ -30,29 +28,35 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     var defaultLocation = MutableLiveData<WeatherDetailsContent>()
     var currentSearchLocation = MutableLiveData<WeatherDetailsContent>()
     var favouriteLocationsForecast = MutableLiveData<List<WeatherDetailsContent>>()
+    // var favouriteLocationsUpdated = MutableLiveData<Boolean>()
 
     init {
         defaultLocation.value = takeDefaultLocationDataFromStorage()
         currentSearchLocation.value = defaultLocation.value
         favouriteLocationsForecast.value = takeFavouriteLocationsDataFromStorage()
+        // favouriteLocationsUpdated.value = false
     }
 
-    override fun onCleared() {
-        println("onCleared called")
+    fun saveDataToPrivateStorage() {
+        println("saveDataToPrivateStorage called")
         saveDefaultLocationDataToStorage()
         saveFavouriteLocationsDataToStorage()
-        super.onCleared()
     }
 
     private fun saveDefaultLocationDataToStorage() {
         println("saveDefaultLocationDataToStorage called")
-        if (defaultLocation != null) {
+        if (defaultLocation.value != null) {
             try {
-                app.openFileOutput(FILE_NAME_DEFAULT_LOCATION, MODE_PRIVATE).use { stream ->
-                    Json.encodeToStream(defaultLocation, stream)
-                }
+                val gson = Gson()
+                val locationsForecast = gson.toJson(defaultLocation.value)
+                val fileOutputStream = getApplication<Application>().openFileOutput(
+                    FILE_NAME_DEFAULT_LOCATION,
+                    MODE_PRIVATE
+                )
+                fileOutputStream.write(locationsForecast.toByteArray())
             } catch (e: Exception) {
                 println("saving default location to file failed")
+                println(e.message)
             }
         }
     }
@@ -60,41 +64,25 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     private fun saveFavouriteLocationsDataToStorage() {
         println("saveFavouriteLocationsDataToStorage called")
         try {
-            app.openFileOutput(FILE_NAME_FAVOURITE_LOCATIONS, MODE_PRIVATE).use { stream ->
-                Json.encodeToStream(favouriteLocationsForecast, stream)
-            }
+            val gson = Gson()
+            val locationsForecast = gson.toJson(favouriteLocationsForecast.value)
+            val fileOutputStream = getApplication<Application>().openFileOutput(
+                FILE_NAME_FAVOURITE_LOCATIONS,
+                MODE_PRIVATE
+            )
+            fileOutputStream.write(locationsForecast.toByteArray())
         } catch (e: Exception) {
             println("saving favourite locations data failed")
+            println(e.message)
         }
     }
 
     private fun takeDefaultLocationDataFromStorage(): WeatherDetailsContent? {
         return try {
-            val files = app.filesDir.listFiles()
-            val resultList: List<WeatherDetailsContent> =
-                files?.filter { it.canRead() && it.isFile && it.name == FILE_NAME_DEFAULT_LOCATION }
-                    ?.map {
-                        Json.decodeFromStream<WeatherDetailsContent>(it.inputStream())
-                    } ?: listOf()
-            println("default results list")
-            println(resultList)
-            if (resultList.size != 1) {
-                return null
-            }
-            return resultList[0]
-        } catch (e: Exception) {
-            println("fetching of default location data failed")
-            null
-        }
-    }
-
-    private fun takeFavouriteLocationsDataFromStorage(): List<WeatherDetailsContent> {
-        return try {
-            var fileInputStream: FileInputStream? = null
-            fileInputStream =
-                getApplication<Application>().openFileInput(FILE_NAME_FAVOURITE_LOCATIONS)
-            val inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
-            val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+            val fileInputStream: FileInputStream? =
+                getApplication<Application>().openFileInput(FILE_NAME_DEFAULT_LOCATION)
+            val inputStreamReader = InputStreamReader(fileInputStream)
+            val bufferedReader = BufferedReader(inputStreamReader)
             val stringBuilder: StringBuilder = StringBuilder()
             var text: String? = null
             while (run {
@@ -103,71 +91,64 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                 } != null) {
                 stringBuilder.append(text)
             }
+            println(stringBuilder.toString())
             val gson = Gson()
-            return gson.fromJson(stringBuilder.toString(), BaseWeather::class.java)
-        } catch (e: java.lang.Exception){
-            println(e.message)
-            listOf()
-        }
-
-
-        return try {
-            // Let's see if it will read all favourite locations at once :)
-            // Empty list is read properly. How it goes when list is not empty?
-            println(app.filesDir)
-            app.filesDir.listFiles().map { println(it.name) }
-            val files = app.filesDir.listFiles()
-            val resultList: List<List<WeatherDetailsContent>> =
-                files?.filter { it.canRead() && it.isFile && it.name == FILE_NAME_FAVOURITE_LOCATIONS }
-                    ?.map {
-                        Json.decodeFromStream<List<WeatherDetailsContent>>(it.inputStream())
-                    } ?: listOf()
-            println("favourite results list")
-            println(resultList)
-            if (resultList.size != 1) {
-                return listOf()
-            }
-            return resultList[0]
+            return gson.fromJson<WeatherDetailsContent>(
+                stringBuilder.toString(),
+                WeatherDetailsContent::class.java
+            )
         } catch (e: Exception) {
             println("fetching of default location data failed")
+            null
+        }
+    }
+
+    private fun takeFavouriteLocationsDataFromStorage(): List<WeatherDetailsContent> {
+        return try {
+            val fileInputStream: FileInputStream? =
+                getApplication<Application>().openFileInput(FILE_NAME_FAVOURITE_LOCATIONS)
+            val inputStreamReader = InputStreamReader(fileInputStream)
+            val bufferedReader = BufferedReader(inputStreamReader)
+            val stringBuilder: StringBuilder = StringBuilder()
+            var text: String? = null
+            while (run {
+                    text = bufferedReader.readLine()
+                    text
+                } != null) {
+                stringBuilder.append(text)
+            }
+            println(stringBuilder.toString())
+            val gson = Gson()
+            val itemType = object : TypeToken<List<WeatherDetailsContent>>() {}.type
+            return gson.fromJson<List<WeatherDetailsContent>>(stringBuilder.toString(), itemType)
+        } catch (e: java.lang.Exception) {
+            println(e.message)
             listOf()
         }
     }
 
-    // alternative way to read favourite locations data -> one by one
-//    private fun takeFavouriteLocationsDataFromStorage(): List<WeatherDetailsContent>{
-//        return try{
-//            val files = app.filesDir.listFiles()
-//            files?.filter{ it.canRead() && it.isFile && it.name != FILE_NAME_DEFAULT_LOCATION }?.map {
-//                Json.decodeFromStream<List<WeatherDetailsContent>>(it.inputStream())
-//            } ?: listOf()
-//        }catch(e: Exception){
-//            println("fetching of favourite locations data failed")
-//            listOf()
-//        }
-//    }
-
-
-    fun checkIfLocationInFavourites(locationName: String): Boolean{
-        for (i in favouriteLocationsForecast.value?.indices!!){
+    fun checkIfLocationInFavourites(locationName: String): Boolean {
+        for (i in favouriteLocationsForecast.value?.indices!!) {
             if (favouriteLocationsForecast.value!![i].locationName == locationName) return true
         }
         return false
     }
 
-    fun addLocationToFavourites(locationForecast: WeatherDetailsContent){
-        val filteredLocations: List<WeatherDetailsContent>? = favouriteLocationsForecast.value?.filter { item -> item.locationName != locationForecast.locationName }
+    fun addLocationToFavourites(locationForecast: WeatherDetailsContent) {
+        val filteredLocations: List<WeatherDetailsContent>? =
+            favouriteLocationsForecast.value?.filter { item -> item.locationName != locationForecast.locationName }
         val mutableListLocations = filteredLocations?.toMutableList()
         mutableListLocations?.add(locationForecast)
         favouriteLocationsForecast.value = mutableListLocations?.toList()
         println(favouriteLocationsForecast.value)
     }
 
-    fun removeLocationFromFavourites(locationForecast: WeatherDetailsContent){
-        favouriteLocationsForecast.value = favouriteLocationsForecast.value?.filter { item -> item.locationName != locationForecast.locationName }
+    fun removeLocationFromFavourites(locationForecast: WeatherDetailsContent) {
+        favouriteLocationsForecast.value =
+            favouriteLocationsForecast.value?.filter { item -> item.locationName != locationForecast.locationName }
     }
 
-    fun searchLocationForecast(location: String, requestType: RequestType){
+    fun searchLocationForecast(location: String, requestType: RequestType) {
         var locationName = location
         val thermalUnit = settings.thermalUnit
         MainScope().launch {
@@ -193,7 +174,9 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                                     currentSearchLocation.value = weatherDetails
                                 }
                                 else -> {
-                                    updateFavouriteLocations(weatherDetails)
+                                    println("before addLocationToFavourites -> $location")
+                                    addLocationToFavourites(weatherDetails)
+                                    println("after addLocationToFavourites -> $location")
                                 }
                             }
                         } else {
@@ -211,15 +194,20 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
         }
     }
 
-    private fun updateFavouriteLocations(newLocationData: WeatherDetailsContent) {
-        // filter through the list of favourite locations, remove if this location already exists and
-        // add a new location.
+    fun refreshLocationsForecasts() {
+        if (settings.defaultLocation != ""){
+            searchLocationForecast(settings.defaultLocation, RequestType.DEFAULT)
+        } else {
+            searchLocationForecast(defaultLocation.value!!.locationName, RequestType.DEFAULT)
+        }
+        if (currentSearchLocation.value != null){
+            searchLocationForecast(currentSearchLocation.value!!.locationName, RequestType.SEARCH)
+        }
+        if (favouriteLocationsForecast.value != null){
+            for (location in favouriteLocationsForecast.value!!){
+                searchLocationForecast(location.locationName, RequestType.FAVOURITE)
+                println("refreshLocationsForecasts -> refreshed location -> ${location.locationName}")
+            }
+        }
     }
-
 }
-
-
-
-
-// TODO NOTE: "A resource failed to call close." error when calling saveFav/Def functions. Why?
-// I get this only when save is called for the first time. During next saves there is no error like this.

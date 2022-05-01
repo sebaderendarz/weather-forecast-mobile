@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         println("activity on create called")
 
-        androidViewModel = ViewModelProvider(this).get(WeatherForecastAndroidViewModel::class.java)
+        androidViewModel = ViewModelProvider(this)[WeatherForecastAndroidViewModel::class.java]
 
         if (savedInstanceState == null) {
             // https://stackoverflow.com/questions/48806201/why-is-oncreateview-in-fragment-called-twice-after-device-rotation-in-android
@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
             this.onSwipeRefresh()
             swipe.isRefreshing = false
         }
-        // onSwipeRefresh() -> here you can invoke swipe refresh when app is opened for the first time
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -94,8 +93,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onSwipeRefresh(){
-        println("SWIPE REFRESH INVOKED - fetch newer information about favourite locations")
+        println("SWIPE REFRESH INVOKED - fetch newer information about locations")
+        androidViewModel.refreshLocationsForecasts()
         // add some logic here
         // how to reload activity to update data in fragments?
+    }
+
+    override fun onStop() {
+        // It works fine when running app on my phone, but on emulator is doesn't work.
+        // Remember when showing this project. I don't know why onStop() is not called
+        // in emulator...
+        println("onStop called in main activity")
+        super.onStop()
+        androidViewModel.saveDataToPrivateStorage()
+    }
+
+    override fun onDestroy() {
+        println("onDestroy called in main activity")
+        super.onDestroy()
+        androidViewModel.saveDataToPrivateStorage()
     }
 }

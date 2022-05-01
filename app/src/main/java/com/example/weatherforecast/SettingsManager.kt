@@ -15,7 +15,10 @@ class SettingsManager(context: Context) {
     private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     val defaultLocation: String
-        get() = sharedPreferences.getString(KEY_DEFAULT_LOCATION, "Warsaw") ?: "Warsaw"
+        get() {
+            val locationName = sharedPreferences.getString(KEY_DEFAULT_LOCATION, "Warsaw")
+            return if (locationName != null && locationName.isNotEmpty()) locationName else "Warsaw"
+        }
 
     val thermalUnit: String
         get() = sharedPreferences.getString(KEY_THERMAL_UNIT, "Celsius") ?: "Celsius"
