@@ -16,7 +16,6 @@ import com.google.android.material.textfield.TextInputEditText
 
 
 class HomeFragment : Fragment() {
-
     private lateinit var androidViewModel: WeatherForecastAndroidViewModel
     private lateinit var weatherDetailsFragment: WeatherDetailsFragment
     private var _binding: FragmentHomeBinding? = null;
@@ -37,7 +36,6 @@ class HomeFragment : Fragment() {
             weatherDetailsFragment =
                 childFragmentManager.findFragmentById(R.id.weatherDetailsLayout) as WeatherDetailsFragment
         }
-
         configureAndroidViewModel()
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         configureBindingListeners()
@@ -64,7 +62,8 @@ class HomeFragment : Fragment() {
             binding.textInputLayout.clearFocus()
             val locationName = binding.textInputText.text.toString()
             if (locationName == "") {
-                androidViewModel.currentSearchLocation.value = androidViewModel.defaultLocation.value
+                androidViewModel.currentSearchLocation.value =
+                    androidViewModel.defaultLocation.value
             } else {
                 androidViewModel.searchLocationForecast(locationName, RequestType.SEARCH)
             }
@@ -73,10 +72,6 @@ class HomeFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        // Using view instead of binding.textInputText solved issue with NullPointerException when
-        // 1. go to favourites 2. go back to home 3. change to horizontal 4. search for location
-        // 5. change back to vertical 6. get exception
-        // But I don't like this solution. It is a workaround.
         val view = activity?.findViewById<TextInputEditText>(R.id.textInputText)
         outState.putString(inputTextKey, view?.text.toString())
     }

@@ -54,7 +54,6 @@ class FavouritesAdapter(
     val fragment: FavouritesFragment,
     val favouriteLocations: MutableList<WeatherDetailsContent>
 ) : FragmentStateAdapter(fragment) {
-
     private val pageIds = favouriteLocations.map { it.hashCode().toLong() }
 
     override fun createFragment(position: Int): Fragment {

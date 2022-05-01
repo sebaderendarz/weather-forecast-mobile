@@ -19,18 +19,16 @@ import com.example.weatherforecast.services.WeatherForecastAndroidViewModel
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var androidViewModel: WeatherForecastAndroidViewModel
-    private var favouritesFragment = FavouritesFragment()
     private val homeFragment = HomeFragment()
+    private val settingsFragment = SettingsFragment()
+    private var favouritesFragment = FavouritesFragment()
+    lateinit var androidViewModel: WeatherForecastAndroidViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        println("activity on create called")
-
         configureAndroidViewModel()
         androidViewModel.refreshLocationsForecastsIfAutoRefreshEnabled()
-
         if (savedInstanceState == null) {
             // https://stackoverflow.com/questions/48806201/why-is-oncreateview-in-fragment-called-twice-after-device-rotation-in-android
             supportFragmentManager.beginTransaction().apply {
@@ -38,7 +36,6 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
         }
-
         val swipe: SwipeRefreshLayout = findViewById(R.id.refreshLayout)
         swipe.setOnRefreshListener {
             this.onSwipeRefresh()
@@ -51,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             ViewModelProvider(this)[WeatherForecastAndroidViewModel::class.java]
         androidViewModel.favouritesUpdatingInProgress.observe(this) {
             val currentFragment = supportFragmentManager.findFragmentById(R.id.flFragment)
-            println(currentFragment)
             if (currentFragment is FavouritesFragment && androidViewModel.favouritesUpdatingInProgress.value == false) {
                 favouritesFragment = FavouritesFragment()
                 supportFragmentManager.beginTransaction().apply {
@@ -86,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.settingItem -> {
                 supportFragmentManager.beginTransaction().apply {
-                    replace(R.id.flFragment, SettingsFragment())
+                    replace(R.id.flFragment, settingsFragment)
                     addToBackStack(null)
                     commit()
                 }
@@ -115,26 +111,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onSwipeRefresh() {
-        println("SWIPE REFRESH INVOKED - fetch newer information about locations")
         if (androidViewModel.settings.allowRefreshOnSwipeUp) {
             androidViewModel.refreshLocationsForecasts()
         } else {
-            println("display a toast saying that swipe on refresh disabled")
+            androidViewModel.displayNotification("Swipe up to refresh disabled!")
         }
     }
 
     override fun onStop() {
-        // It works fine when running app on my phone, but on emulator is doesn't work.
-        // Remember when showing this project. I don't know why onStop() is not called
-        // in emulator...
-        println("onStop called in main activity")
-        super.onStop()
         androidViewModel.saveDataToPrivateStorage()
+        super.onStop()
     }
 
     override fun onDestroy() {
-        println("onDestroy called in main activity")
-        super.onDestroy()
         androidViewModel.saveDataToPrivateStorage()
+        super.onDestroy()
     }
 }

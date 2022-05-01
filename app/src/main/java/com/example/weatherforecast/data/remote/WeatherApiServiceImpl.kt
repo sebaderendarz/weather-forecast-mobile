@@ -5,9 +5,10 @@ import com.example.weatherforecast.data.remote.data.NameToCoordinatesResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 
+
 class WeatherApiServiceImpl(
     private val client: HttpClient
-): WeatherApiService {
+) : WeatherApiService {
 
     override suspend fun getCoordinates(locationName: String): List<NameToCoordinatesResponse>? {
         return try {
@@ -15,7 +16,7 @@ class WeatherApiServiceImpl(
                 url(HttpRoutes.COORDINATES_BASE_URL)
                 parameter("q", locationName)
             }
-         } catch(e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }
@@ -32,7 +33,7 @@ class WeatherApiServiceImpl(
                 parameter("lon", longitude)
                 parameter("units", units)
             }
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }

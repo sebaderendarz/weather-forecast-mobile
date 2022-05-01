@@ -3,6 +3,7 @@ package com.example.weatherforecast.services
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.weatherforecast.data.remote.WeatherApiService
@@ -22,18 +23,18 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     private val filenameDefaultLocation = "defaultLocation.json"
     private val filenameFavouriteLocations = "favouriteLocations.json"
     private val apiService = WeatherApiService.create()
-    val settings: SettingsService = SettingsService(application)
-    var defaultLocation = MutableLiveData<WeatherDetailsContent>()
-    var currentSearchLocation = MutableLiveData<WeatherDetailsContent>()
-    var favouriteLocationsForecast = MutableLiveData<List<WeatherDetailsContent>>()
-    var favouritesUpdatingInProgress = MutableLiveData<Boolean>()
-    private var favouritesToBeUpdated = 0
     private val listener: SharedPreferences.OnSharedPreferenceChangeListener =
         SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key == "units" || key == "defaultLocation") {
                 refreshLocationsForecasts()
             }
         }
+    private var favouritesToBeUpdated = 0
+    val settings: SettingsService = SettingsService(application)
+    var defaultLocation = MutableLiveData<WeatherDetailsContent>()
+    var currentSearchLocation = MutableLiveData<WeatherDetailsContent>()
+    var favouriteLocationsForecast = MutableLiveData<List<WeatherDetailsContent>>()
+    var favouritesUpdatingInProgress = MutableLiveData<Boolean>()
 
     init {
         defaultLocation.value = takeDefaultLocationDataFromStorage()
@@ -44,13 +45,11 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     }
 
     fun saveDataToPrivateStorage() {
-        println("saveDataToPrivateStorage called")
         saveDefaultLocationDataToStorage()
         saveFavouriteLocationsDataToStorage()
     }
 
     private fun saveDefaultLocationDataToStorage() {
-        println("saveDefaultLocationDataToStorage called")
         if (defaultLocation.value != null) {
             try {
                 val gson = Gson()
@@ -61,14 +60,12 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                 )
                 fileOutputStream.write(locationsForecast.toByteArray())
             } catch (e: Exception) {
-                println("saving default location to file failed")
-                println(e.message)
+                displayNotification("Save to the private storage failed!")
             }
         }
     }
 
     private fun saveFavouriteLocationsDataToStorage() {
-        println("saveFavouriteLocationsDataToStorage called")
         try {
             val gson = Gson()
             val locationsForecast = gson.toJson(favouriteLocationsForecast.value)
@@ -78,8 +75,7 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
             )
             fileOutputStream.write(locationsForecast.toByteArray())
         } catch (e: Exception) {
-            println("saving favourite locations data failed")
-            println(e.message)
+            displayNotification("Save to the private storage failed!")
         }
     }
 
@@ -97,14 +93,13 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                 } != null) {
                 stringBuilder.append(text)
             }
-            println(stringBuilder.toString())
             val gson = Gson()
             return gson.fromJson<WeatherDetailsContent>(
                 stringBuilder.toString(),
                 WeatherDetailsContent::class.java
             )
         } catch (e: Exception) {
-            println("fetching of default location data failed")
+            displayNotification("Fetch of locations from the private storage failed!")
             null
         }
     }
@@ -123,12 +118,11 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                 } != null) {
                 stringBuilder.append(text)
             }
-            println(stringBuilder.toString())
             val gson = Gson()
             val itemType = object : TypeToken<List<WeatherDetailsContent>>() {}.type
             return gson.fromJson<List<WeatherDetailsContent>>(stringBuilder.toString(), itemType)
         } catch (e: java.lang.Exception) {
-            println(e.message)
+            displayNotification("Fetch of locations from the private storage failed!")
             listOf()
         }
     }
@@ -146,7 +140,6 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
         val mutableListLocations = filteredLocations?.toMutableList()
         mutableListLocations?.add(locationForecast)
         favouriteLocationsForecast.value = mutableListLocations?.toList()
-        println(favouriteLocationsForecast.value)
     }
 
     fun removeLocationFromFavourites(locationForecast: WeatherDetailsContent) {
@@ -160,7 +153,7 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
         MainScope().launch {
             kotlin.runCatching {
                 apiService.getCoordinates(location)
-            }.onSuccess { it ->
+            }.onSuccess {
                 if (!it.isNullOrEmpty()) {
                     kotlin.runCatching {
                         locationName = it[0].name
@@ -185,19 +178,19 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                                 }
                             }
                         } else {
-                            println("Request to get weather details returned incorrect data")
+                            displayNotification("Fetching location forecast failed!")
                             updateFavouritesUpdateState()
                         }
                     }.onFailure {
-                        println("Request to get forecast failed")
+                        displayNotification("Fetching location forecast failed!")
                         updateFavouritesUpdateState()
                     }
                 } else {
-                    println("Request to get coordinates returned incorrect data")
+                    displayNotification("Fetching location forecast failed!")
                     updateFavouritesUpdateState()
                 }
             }.onFailure {
-                println("Request to get coordinates failed")
+                displayNotification("Fetching location forecast failed!")
                 updateFavouritesUpdateState()
             }
         }
@@ -239,6 +232,12 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                     refreshLocationsForecasts()
                 }
             }
+        }
+    }
+
+    fun displayNotification(message: String) {
+        if (settings.showNotifications) {
+            Toast.makeText(getApplication(), message, Toast.LENGTH_LONG).show()
         }
     }
 }

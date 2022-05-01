@@ -18,46 +18,33 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 
-// Other things:
-// 4. Add notifications showing when enabled.
-// 5. Final code formatting.
-// 4. Layouts for version on tablets and fix for versions on mobile.
-
-
 class WeatherDetailsFragment : Fragment() {
-
-    private lateinit var androidViewModel: WeatherForecastAndroidViewModel
     private val weatherIconBaseUrl = "https://openweathermap.org/img/wn/"
+    private val weatherForecastKey = "weatherForecast"
     private var _binding: FragmentWeatherDetailsBinding? = null
     private val binding get() = _binding!!
-    private val weatherForecastKey = "weatherForecast"
-    var weatherForecastData: WeatherDetailsContent?  = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        println("onCreate in WeatherDetails Fragment called")
-    }
+    var weatherForecastData: WeatherDetailsContent? = null
+    private lateinit var androidViewModel: WeatherForecastAndroidViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        androidViewModel = ViewModelProvider(requireActivity())[WeatherForecastAndroidViewModel::class.java]
-
+        androidViewModel =
+            ViewModelProvider(requireActivity())[WeatherForecastAndroidViewModel::class.java]
         _binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
         configureBindingListeners()
-
         return binding.root
     }
 
-    private fun configureBindingListeners(){
+    private fun configureBindingListeners() {
         binding.favouriteButton.setOnClickListener {
             if (weatherForecastData != null) {
                 if (binding.favouriteButton.tag == "full") {
                     setOutlinedStarButton()
                     androidViewModel.removeLocationFromFavourites(weatherForecastData!!)
                     removeFromFavouriteLocationsInAdapter()
-                }else{
+                } else {
                     setFullStarButton()
                     androidViewModel.addLocationToFavourites(weatherForecastData!!)
                 }
@@ -65,19 +52,19 @@ class WeatherDetailsFragment : Fragment() {
         }
     }
 
-    private fun removeFromFavouriteLocationsInAdapter(){
+    private fun removeFromFavouriteLocationsInAdapter() {
         val favouritesPager: ViewPager2? = activity?.findViewById(R.id.favouritesPager)
         if (favouritesPager != null) {
             (favouritesPager.adapter as FavouritesAdapter).removeFragment(weatherForecastData!!.locationName)
         }
     }
 
-    private fun setFullStarButton(){
+    private fun setFullStarButton() {
         binding.favouriteButton.setImageResource(R.drawable.ic_baseline_star_24)
         binding.favouriteButton.tag = "full"
     }
 
-    private fun setOutlinedStarButton(){
+    private fun setOutlinedStarButton() {
         binding.favouriteButton.setImageResource(R.drawable.ic_baseline_star_outline_24)
         binding.favouriteButton.tag = "outline"
     }
@@ -87,7 +74,6 @@ class WeatherDetailsFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        //println("on save instance state in weather forecast details")
         if (weatherForecastData != null) {
             val data = Json.encodeToString(weatherForecastData)
             outState.putString(weatherForecastKey, data)
@@ -97,10 +83,9 @@ class WeatherDetailsFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        //println("on restore instance state in weather forecast details")
         if (savedInstanceState != null) {
             val stringData = savedInstanceState.getString(weatherForecastKey)
-            if (stringData != null && stringData.isNotEmpty()){
+            if (stringData != null && stringData.isNotEmpty()) {
                 weatherForecastData = Json.decodeFromString<WeatherDetailsContent>(stringData)
                 if (weatherForecastData != null) {
                     updateFragmentContent(weatherForecastData!!)
@@ -111,7 +96,7 @@ class WeatherDetailsFragment : Fragment() {
 
     fun updateFragmentContent(weatherDetails: WeatherDetailsContent) {
         if (weatherDetails.forecast.hourly.size < 25) {
-            // TODO display error message toast?
+            androidViewModel.displayNotification("Failed to load the location forecast!")
             return
         }
         weatherForecastData = weatherDetails
@@ -119,8 +104,12 @@ class WeatherDetailsFragment : Fragment() {
         setTemperature(weatherDetails.forecast.hourly[0].temp, weatherDetails.units)
         setImage(weatherDetails.forecast.hourly[0].weather[0].icon)
         binding.weatherType.text = weatherDetails.forecast.hourly[0].weather[0].main
-        updateHourlyForecast(weatherDetails.forecast.hourly.subList(1, 25), weatherDetails.forecast.timezone_offset, weatherDetails.units)
-        if (androidViewModel.checkIfLocationInFavourites(weatherDetails.locationName)){
+        updateHourlyForecast(
+            weatherDetails.forecast.hourly.subList(1, 25),
+            weatherDetails.forecast.timezone_offset,
+            weatherDetails.units
+        )
+        if (androidViewModel.checkIfLocationInFavourites(weatherDetails.locationName)) {
             setFullStarButton()
         } else {
             setOutlinedStarButton()
@@ -128,7 +117,7 @@ class WeatherDetailsFragment : Fragment() {
     }
 
     private fun setTemperature(temperature: Float, units: String) {
-        val roundedTemp = (temperature*10).toInt().toFloat()/10
+        val roundedTemp = (temperature * 10).toInt().toFloat() / 10
         when (units) {
             "imperial" -> ("${roundedTemp}F").also { binding.temperature.text = it }
             "metric" -> ("${roundedTemp}°C").also { binding.temperature.text = it }
@@ -141,7 +130,11 @@ class WeatherDetailsFragment : Fragment() {
         Picasso.get().load(url).into(binding.imageView)
     }
 
-    private fun updateHourlyForecast(hourlyWeatherDetails: List<HourForecast>, timezoneOffset: Int, units: String) {
+    private fun updateHourlyForecast(
+        hourlyWeatherDetails: List<HourForecast>,
+        timezoneOffset: Int,
+        units: String
+    ) {
         for (index in hourlyWeatherDetails.indices) {
             val id: Int = resources.getIdentifier(
                 "fragmentContainerView" + (index + 1).toString(),

@@ -18,10 +18,10 @@ interface WeatherApiService {
         fun create(): WeatherApiService {
             return WeatherApiServiceImpl(
                 client = HttpClient(Android) {
-                    install(Logging){
+                    install(Logging) {
                         level = LogLevel.ALL
                     }
-                    install(JsonFeature){
+                    install(JsonFeature) {
                         serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
                             ignoreUnknownKeys = true
                         })
