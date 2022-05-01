@@ -1,4 +1,4 @@
-package com.example.weatherforecast
+package com.example.weatherforecast.services
 
 import android.content.Context
 import android.content.SharedPreferences

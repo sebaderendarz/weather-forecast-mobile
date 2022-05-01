@@ -1,4 +1,4 @@
-package com.example.weatherforecast
+package com.example.weatherforecast.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -8,7 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
+import com.example.weatherforecast.R
+import com.example.weatherforecast.services.WeatherForecastAndroidViewModel
 import com.example.weatherforecast.databinding.FragmentHomeBinding
+import com.example.weatherforecast.enums.RequestType
 import com.google.android.material.textfield.TextInputEditText
 
 

@@ -1,4 +1,4 @@
-package com.example.weatherforecast
+package com.example.weatherforecast.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.weatherforecast.R
+import com.example.weatherforecast.services.WeatherForecastAndroidViewModel
 import com.example.weatherforecast.data.remote.data.HourForecast
 import com.example.weatherforecast.data.remote.data.WeatherDetailsContent
 import com.example.weatherforecast.databinding.FragmentWeatherDetailsBinding

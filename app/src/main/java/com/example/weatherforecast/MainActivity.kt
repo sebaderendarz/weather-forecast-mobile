@@ -10,10 +10,12 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.weatherforecast.fragments.FavouritesFragment
+import com.example.weatherforecast.fragments.HomeFragment
+import com.example.weatherforecast.fragments.SettingsFragment
+import com.example.weatherforecast.services.WeatherForecastAndroidViewModel
 
 
 class MainActivity : AppCompatActivity() {

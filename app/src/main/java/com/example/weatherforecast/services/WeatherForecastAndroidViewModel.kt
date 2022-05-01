@@ -1,4 +1,4 @@
-package com.example.weatherforecast
+package com.example.weatherforecast.services
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.weatherforecast.data.remote.WeatherApiService
 import com.example.weatherforecast.data.remote.data.WeatherDetailsContent
+import com.example.weatherforecast.enums.RequestType
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.MainScope
@@ -14,10 +15,6 @@ import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.time.Instant
-
-
-// Here we have data. Add observers in activity and fragments that will update view when values change.
-// https://www.youtube.com/watch?v=whAVI1vTOko
 
 
 class WeatherForecastAndroidViewModel(application: Application) : AndroidViewModel(application) {

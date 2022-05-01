@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/weather_hour_layout_border"
-        tools:context=".WeatherHourDetailsFragment">
+        tools:context=".fragments.WeatherHourDetailsFragment">
 
         <TextView
             android:id="@+id/hour"

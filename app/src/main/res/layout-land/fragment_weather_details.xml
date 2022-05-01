@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".WeatherDetailsFragment">
+        tools:context=".fragments.WeatherDetailsFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -116,7 +116,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView1"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -126,7 +126,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView2"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -135,7 +135,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView3"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -144,7 +144,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView4"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -153,7 +153,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView5"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -173,7 +173,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView6"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -183,7 +183,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView7"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -192,7 +192,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView8"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -201,7 +201,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView9"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -210,7 +210,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView10"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -231,7 +231,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView11"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -241,7 +241,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView12"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -250,7 +250,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView13"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -259,7 +259,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView14"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -268,7 +268,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView15"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -288,7 +288,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView16"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -298,7 +298,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView17"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -307,7 +307,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView18"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -316,7 +316,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView19"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -325,7 +325,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView20"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -347,7 +347,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView21"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -357,7 +357,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView22"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -366,7 +366,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView23"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -375,7 +375,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView24"
-                android:name="com.example.weatherforecast.WeatherHourDetailsFragment"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"

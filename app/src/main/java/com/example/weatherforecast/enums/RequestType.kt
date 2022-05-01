@@ -1,4 +1,4 @@
-package com.example.weatherforecast
+package com.example.weatherforecast.enums
 
 enum class RequestType {
     DEFAULT,
