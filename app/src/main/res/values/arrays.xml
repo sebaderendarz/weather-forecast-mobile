@@ -1,10 +1,18 @@
 <resources>
     <!-- Settings Fragment -->
-    <!-- Thermal Unit Preference -->
-    <string-array name="thermalUnitReplies">
-        <item>Celsius</item>
-        <item>Fahrenheit</item>
+    <!-- Units Preference -->
+    <string-array name="UnitsEntries">
+        <item>Celsius and km/h</item>
+        <item>Kelvin and km/h</item>
+        <item>Fahrenheit and mi/h</item>
     </string-array>
+
+    <string-array name="UnitsEntryValues">
+        <item>metric</item>
+        <item>standard</item>
+        <item>imperial</item>
+    </string-array>
+
     <!-- Refresh Period Preference -->
     <string-array name="refreshPeriodReplies">
         <item>4 hours</item>

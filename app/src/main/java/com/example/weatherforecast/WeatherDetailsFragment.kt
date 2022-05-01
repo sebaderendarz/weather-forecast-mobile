@@ -17,11 +17,9 @@ import kotlinx.serialization.json.Json
 
 
 // Other things:
-// 0. Quick update. After refresh data should be updated in views immediately. Not when you open
-//      the app next time or change the view and go back again.
 // 1. Settings logic.
 // 2. Update options in settings. Update descriptions etc.
-// 3. Unit type seems to not work now.
+// 3. Refresh should be triggered and views should be updated when unit of measure changes.
 // 4. Layouts for version on tablets.
 
 

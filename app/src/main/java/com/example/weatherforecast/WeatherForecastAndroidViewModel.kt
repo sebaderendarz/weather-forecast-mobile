@@ -24,17 +24,17 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     private val FILE_NAME_FAVOURITE_LOCATIONS = "favouriteLocations.json"
     private val apiService = WeatherApiService.create()
     val settings: SettingsManager = SettingsManager(application)
-    private val app: Application = application
     var defaultLocation = MutableLiveData<WeatherDetailsContent>()
     var currentSearchLocation = MutableLiveData<WeatherDetailsContent>()
     var favouriteLocationsForecast = MutableLiveData<List<WeatherDetailsContent>>()
-    // var favouriteLocationsUpdated = MutableLiveData<Boolean>()
+    var favouritesUpdatingInProgress = MutableLiveData<Boolean>()
+    private var favouritesToBeUpdated = 0
 
     init {
         defaultLocation.value = takeDefaultLocationDataFromStorage()
         currentSearchLocation.value = defaultLocation.value
         favouriteLocationsForecast.value = takeFavouriteLocationsDataFromStorage()
-        // favouriteLocationsUpdated.value = false
+        favouritesUpdatingInProgress.value = false
     }
 
     fun saveDataToPrivateStorage() {
@@ -150,22 +150,19 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
 
     fun searchLocationForecast(location: String, requestType: RequestType) {
         var locationName = location
-        val thermalUnit = settings.thermalUnit
+        val units = settings.units
         MainScope().launch {
             kotlin.runCatching {
-                //println("send getCoordinates request")
                 apiService.getCoordinates(location)
             }.onSuccess { it ->
-                //println(it)
                 if (!it.isNullOrEmpty()) {
                     kotlin.runCatching {
                         locationName = it[0].name
-                        apiService.getForecast(it[0].lat, it[0].lon, thermalUnit)
+                        apiService.getForecast(it[0].lat, it[0].lon, units)
                     }.onSuccess { it2 ->
-                        //println(it2)
                         if (it2 != null) {
-                            val weatherDetails: WeatherDetailsContent =
-                                WeatherDetailsContent(it2, locationName, thermalUnit)
+                            val weatherDetails =
+                                WeatherDetailsContent(it2, locationName, units)
                             when (requestType) {
                                 RequestType.DEFAULT -> {
                                     defaultLocation.value = weatherDetails
@@ -177,36 +174,55 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                                     println("before addLocationToFavourites -> $location")
                                     addLocationToFavourites(weatherDetails)
                                     println("after addLocationToFavourites -> $location")
+                                    updateFavouritesUpdateState()
                                 }
                             }
                         } else {
                             println("Request to get weather details returned incorrect data")
+                            updateFavouritesUpdateState()
                         }
                     }.onFailure {
                         println("Request to get forecast failed")
+                        updateFavouritesUpdateState()
                     }
                 } else {
                     println("Request to get coordinates returned incorrect data")
+                    updateFavouritesUpdateState()
                 }
             }.onFailure {
                 println("Request to get coordinates failed")
+                updateFavouritesUpdateState()
             }
         }
     }
 
+    private fun updateFavouritesUpdateState() {
+        favouritesToBeUpdated -= 1
+        if (favouritesToBeUpdated <= 0) {
+            favouritesToBeUpdated = 0
+            favouritesUpdatingInProgress.value = false
+        }
+    }
+
     fun refreshLocationsForecasts() {
-        if (settings.defaultLocation != ""){
+        if (settings.defaultLocation != "") {
             searchLocationForecast(settings.defaultLocation, RequestType.DEFAULT)
         } else {
             searchLocationForecast(defaultLocation.value!!.locationName, RequestType.DEFAULT)
         }
-        if (currentSearchLocation.value != null){
+        if (currentSearchLocation.value != null) {
             searchLocationForecast(currentSearchLocation.value!!.locationName, RequestType.SEARCH)
         }
-        if (favouriteLocationsForecast.value != null){
-            for (location in favouriteLocationsForecast.value!!){
-                searchLocationForecast(location.locationName, RequestType.FAVOURITE)
-                println("refreshLocationsForecasts -> refreshed location -> ${location.locationName}")
+        if (favouritesUpdatingInProgress.value == false
+            && favouriteLocationsForecast.value != null
+            && favouriteLocationsForecast.value!!.isNotEmpty()) {
+            favouritesUpdatingInProgress.value = true
+            favouritesToBeUpdated = favouriteLocationsForecast.value!!.size
+            for (index in favouriteLocationsForecast.value!!.indices) {
+                searchLocationForecast(
+                    favouriteLocationsForecast.value!![index].locationName,
+                    RequestType.FAVOURITE
+                )
             }
         }
     }

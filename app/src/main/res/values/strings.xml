@@ -8,14 +8,13 @@
     <string name="notifications_header">Notifications</string>
     <!-- General Preferences -->
     <string name="default_location_title">Default Location</string>
-    <string name="thermal_unit_title">Thermal Unit</string>
     <!-- Sync Preferences -->
     <string name="refresh_on_swipe_up_title">Allow Refresh on Swipe Up</string>
     <string name="refresh_on_swipe_up_summary_on">Refresh the forecast on swipe up.</string>
     <string name="refresh_on_swipe_up_summary_off">Keep the current forecast on swipe up.</string>
-    <string name="keep_forecast_title">Keep Forecast Until Refresh</string>
-    <string name="keep_forecast_summary_on">Forecast is not refreshed until you swipe up to refresh the forecast.</string>
-    <string name="keep_forecast_summary_off">Forecast is updated automatically.</string>
+    <string name="keep_forecast_title">Auto Refresh Forecast</string>
+    <string name="keep_forecast_summary_on">Forecast is refreshed automatically after the specified period.</string>
+    <string name="keep_forecast_summary_off">Forecast is not refreshed until you swipe up to refresh the forecast.</string>
     <string name="refresh_period_title">Refresh Period</string>
     <!-- Notifications Preferences -->
     <string name="error_toasts_title">Show Notifications</string>

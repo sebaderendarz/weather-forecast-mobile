@@ -10,13 +10,15 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var androidViewModel: WeatherForecastAndroidViewModel
-    private val favouritesFragment = FavouritesFragment()
+    private var favouritesFragment = FavouritesFragment()
     private val homeFragment = HomeFragment()
     private val settingsFragment = SettingsFragment()
 
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         println("activity on create called")
 
-        androidViewModel = ViewModelProvider(this)[WeatherForecastAndroidViewModel::class.java]
+        configureAndroidViewModel()
 
         if (savedInstanceState == null) {
             // https://stackoverflow.com/questions/48806201/why-is-oncreateview-in-fragment-called-twice-after-device-rotation-in-android
@@ -39,6 +41,23 @@ class MainActivity : AppCompatActivity() {
         swipe.setOnRefreshListener {
             this.onSwipeRefresh()
             swipe.isRefreshing = false
+        }
+    }
+
+    private fun configureAndroidViewModel() {
+        androidViewModel =
+            ViewModelProvider(this)[WeatherForecastAndroidViewModel::class.java]
+        androidViewModel.favouritesUpdatingInProgress.observe(this) {
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.flFragment)
+            println(currentFragment)
+            if (currentFragment is FavouritesFragment && androidViewModel.favouritesUpdatingInProgress.value == false) {
+                favouritesFragment = FavouritesFragment()
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.flFragment, favouritesFragment)
+                    addToBackStack(null)
+                    commit()
+                }
+            }
         }
     }
 
@@ -92,11 +111,9 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(event)
     }
 
-    private fun onSwipeRefresh(){
+    private fun onSwipeRefresh() {
         println("SWIPE REFRESH INVOKED - fetch newer information about locations")
         androidViewModel.refreshLocationsForecasts()
-        // add some logic here
-        // how to reload activity to update data in fragments?
     }
 
     override fun onStop() {

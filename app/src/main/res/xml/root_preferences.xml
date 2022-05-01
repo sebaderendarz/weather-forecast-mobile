@@ -11,11 +11,11 @@
             app:useSimpleSummaryProvider="true"/>
 
         <ListPreference
-            app:key="thermalUnit"
-            app:title="@string/thermal_unit_title"
-            app:entries="@array/thermalUnitReplies"
-            app:entryValues="@array/thermalUnitReplies"
-            app:defaultValue="Celsius"
+            app:key="units"
+            app:title="Units"
+            app:entries="@array/UnitsEntries"
+            app:entryValues="@array/UnitsEntryValues"
+            app:defaultValue="metric"
             app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 
@@ -26,14 +26,15 @@
             app:key="allowRefreshOnSwipeUp"
             app:title="@string/refresh_on_swipe_up_title"
             app:summaryOn="@string/refresh_on_swipe_up_summary_on"
-            app:summaryOff="@string/refresh_on_swipe_up_summary_off" />
+            app:summaryOff="@string/refresh_on_swipe_up_summary_off"
+            app:defaultValue="true"/>
 
         <SwitchPreferenceCompat
-            app:key="notSyncAutomatically"
+            app:key="syncAutomatically"
             app:title="@string/keep_forecast_title"
             app:summaryOn="@string/keep_forecast_summary_on"
             app:summaryOff="@string/keep_forecast_summary_off"
-            app:dependency="allowRefreshOnSwipeUp"/>
+            app:defaultValue="true"/>
 
         <ListPreference
             app:key="refreshAfterPeriod"
@@ -42,7 +43,7 @@
             app:entryValues="@array/refreshPeriodReplies"
             app:defaultValue="4 hours"
             app:useSimpleSummaryProvider="true"
-            app:dependency="notSyncAutomatically"/>
+            app:dependency="syncAutomatically"/>
 
     </PreferenceCategory>
 
