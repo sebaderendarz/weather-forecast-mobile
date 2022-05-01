@@ -2,6 +2,7 @@ package com.example.weatherforecast.services
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.weatherforecast.data.remote.WeatherApiService
@@ -21,18 +22,25 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     private val filenameDefaultLocation = "defaultLocation.json"
     private val filenameFavouriteLocations = "favouriteLocations.json"
     private val apiService = WeatherApiService.create()
-    val settings: SettingsManager = SettingsManager(application)
+    val settings: SettingsService = SettingsService(application)
     var defaultLocation = MutableLiveData<WeatherDetailsContent>()
     var currentSearchLocation = MutableLiveData<WeatherDetailsContent>()
     var favouriteLocationsForecast = MutableLiveData<List<WeatherDetailsContent>>()
     var favouritesUpdatingInProgress = MutableLiveData<Boolean>()
     private var favouritesToBeUpdated = 0
+    private val listener: SharedPreferences.OnSharedPreferenceChangeListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == "units" || key == "defaultLocation") {
+                refreshLocationsForecasts()
+            }
+        }
 
     init {
         defaultLocation.value = takeDefaultLocationDataFromStorage()
         currentSearchLocation.value = defaultLocation.value
         favouriteLocationsForecast.value = takeFavouriteLocationsDataFromStorage()
         favouritesUpdatingInProgress.value = false
+        settings.sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
     }
 
     fun saveDataToPrivateStorage() {
@@ -163,15 +171,16 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                                 WeatherDetailsContent(it2, locationName, units)
                             when (requestType) {
                                 RequestType.DEFAULT -> {
+                                    if (defaultLocation.value!!.locationName == currentSearchLocation.value!!.locationName) {
+                                        currentSearchLocation.value = weatherDetails
+                                    }
                                     defaultLocation.value = weatherDetails
                                 }
                                 RequestType.SEARCH -> {
                                     currentSearchLocation.value = weatherDetails
                                 }
                                 else -> {
-                                    println("before addLocationToFavourites -> $location")
                                     addLocationToFavourites(weatherDetails)
-                                    println("after addLocationToFavourites -> $location")
                                     updateFavouritesUpdateState()
                                 }
                             }
@@ -203,17 +212,14 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
     }
 
     fun refreshLocationsForecasts() {
-        if (settings.defaultLocation != "") {
-            searchLocationForecast(settings.defaultLocation, RequestType.DEFAULT)
-        } else {
-            searchLocationForecast(defaultLocation.value!!.locationName, RequestType.DEFAULT)
-        }
-        if (currentSearchLocation.value != null) {
+        searchLocationForecast(settings.defaultLocation, RequestType.DEFAULT)
+        if (currentSearchLocation.value != null && currentSearchLocation.value!!.locationName != settings.defaultLocation) {
             searchLocationForecast(currentSearchLocation.value!!.locationName, RequestType.SEARCH)
         }
         if (favouritesUpdatingInProgress.value == false
             && favouriteLocationsForecast.value != null
-            && favouriteLocationsForecast.value!!.isNotEmpty()) {
+            && favouriteLocationsForecast.value!!.isNotEmpty()
+        ) {
             favouritesUpdatingInProgress.value = true
             favouritesToBeUpdated = favouriteLocationsForecast.value!!.size
             for (index in favouriteLocationsForecast.value!!.indices) {
@@ -225,11 +231,11 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
         }
     }
 
-    fun refreshLocationsForecastsIfAutoRefreshEnabled(){
-        if (settings.syncAutomatically){
-            if (favouriteLocationsForecast.value != null && favouriteLocationsForecast.value!!.isNotEmpty()){
+    fun refreshLocationsForecastsIfAutoRefreshEnabled() {
+        if (settings.syncAutomatically) {
+            if (favouriteLocationsForecast.value != null && favouriteLocationsForecast.value!!.isNotEmpty()) {
                 val currentTimestamp = Instant.now().epochSecond
-                if (favouriteLocationsForecast.value!![0].forecast.hourly[0].dt + settings.refreshAfterPeriod < currentTimestamp){
+                if (favouriteLocationsForecast.value!![0].forecast.hourly[0].dt + settings.refreshAfterPeriod < currentTimestamp) {
                     refreshLocationsForecasts()
                 }
             }

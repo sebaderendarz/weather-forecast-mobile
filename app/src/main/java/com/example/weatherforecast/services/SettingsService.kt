@@ -5,14 +5,14 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 
 
-class SettingsManager(context: Context) {
+class SettingsService(context: Context) {
     private val keyDefaultLocation = "defaultLocation";
     private val keyUnits = "units";
     private val keyAllowRefreshOnSwipeUp = "allowRefreshOnSwipeUp";
     private val keySyncAutomatically = "syncAutomatically";
     private val keyRefreshAfterPeriod = "refreshAfterPeriod";
     private val keyShowNotifications = "showNotifications";
-    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     val defaultLocation: String
         get() {

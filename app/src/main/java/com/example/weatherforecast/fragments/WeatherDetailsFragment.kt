@@ -19,8 +19,8 @@ import kotlinx.serialization.json.Json
 
 
 // Other things:
-// 3. Refresh should be triggered and views should be updated when unit of measure changes.
 // 4. Add notifications showing when enabled.
+// 5. Final code formatting.
 // 4. Layouts for version on tablets and fix for versions on mobile.
 
 

@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var androidViewModel: WeatherForecastAndroidViewModel
     private var favouritesFragment = FavouritesFragment()
     private val homeFragment = HomeFragment()
-    private val settingsFragment = SettingsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.settingItem -> {
                 supportFragmentManager.beginTransaction().apply {
-                    replace(R.id.flFragment, settingsFragment)
+                    replace(R.id.flFragment, SettingsFragment())
                     addToBackStack(null)
                     commit()
                 }
