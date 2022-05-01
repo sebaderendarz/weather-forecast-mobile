@@ -110,37 +110,39 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/weatherDetails">
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView1"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayForecastText" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView2"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView1" />
+                android:layout_height="wrap_content" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView3"
-                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView2" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
         </LinearLayout>
 
         <LinearLayout
@@ -149,37 +151,39 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/weatherDetails">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView3"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView4"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayForecastText" />
+                android:layout_height="wrap_content" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView5"
-                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView4" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView6"
-                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView5" />
         </LinearLayout>
 
         <LinearLayout
@@ -188,37 +192,40 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/weatherDetails">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView7"
+                android:id="@+id/fragmentContainerView5"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayForecastText" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView8"
+                android:id="@+id/fragmentContainerView6"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView7" />
+                android:layout_height="wrap_content" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView9"
-                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView8" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
         </LinearLayout>
 
         <LinearLayout
@@ -227,37 +234,40 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/weatherDetails">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView10"
+                android:id="@+id/fragmentContainerView7"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayForecastText" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView11"
+                android:id="@+id/fragmentContainerView8"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView10" />
+                android:layout_height="wrap_content" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView12"
-                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView11" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
         </LinearLayout>
 
         <LinearLayout
@@ -266,37 +276,39 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/weatherDetails">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView13"
+                android:id="@+id/fragmentContainerView9"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayForecastText" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView14"
+                android:id="@+id/fragmentContainerView10"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView13" />
+                android:layout_height="wrap_content" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView15"
-                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView14" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
         </LinearLayout>
 
         <LinearLayout
@@ -305,38 +317,41 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/weatherDetails">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView16"
+                android:id="@+id/fragmentContainerView11"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayForecastText" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView17"
+                android:id="@+id/fragmentContainerView12"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView16" />
+                android:layout_height="wrap_content" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView18"
-                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView17" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
         </LinearLayout>
+
 
         <LinearLayout
             style="@style/hourDetailsRow"
@@ -344,37 +359,39 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/weatherDetails">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView19"
+                android:id="@+id/fragmentContainerView13"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayForecastText" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView20"
+                android:id="@+id/fragmentContainerView14"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView19" />
+                android:layout_height="wrap_content" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView21"
-                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView20" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
         </LinearLayout>
 
         <LinearLayout
@@ -383,38 +400,206 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/weatherDetails">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView15"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView16"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/hourDetailsRow"
+            android:id="@+id/hourDetailsRow9"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView17"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView18"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/hourDetailsRow"
+            android:id="@+id/hourDetailsRow10"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView19"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView20"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/hourDetailsRow"
+            android:id="@+id/hourDetailsRow11"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView21"
+                android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView22"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayForecastText" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/hourDetailsRow"
+            android:id="@+id/hourDetailsRow12"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView23"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView22" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView24"
                 android:name="com.example.weatherforecast.fragments.WeatherHourDetailsFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/fragmentContainerView23" />
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+            </Space>
+
         </LinearLayout>
+
     </LinearLayout>
+
 </layout>

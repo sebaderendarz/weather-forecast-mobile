@@ -6,7 +6,7 @@
     <LinearLayout
         android:id="@+id/hourDetailsLayout"
         android:gravity="center"
-        android:layout_width="120dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/weather_hour_layout_border"
@@ -19,7 +19,7 @@
             android:layout_marginTop="16dp"
             android:text="12:00 AM"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
             android:layout_marginTop="12dp"
             android:text="33.0F"
             android:textAlignment="center"
-            android:textSize="24sp"
+            android:textSize="26sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hour" />
@@ -53,6 +53,7 @@
             android:layout_marginTop="17dp"
             android:layout_marginBottom="16dp"
             android:text="10.8km/h"
+            android:textSize="18sp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
