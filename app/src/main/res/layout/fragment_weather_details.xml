@@ -20,11 +20,10 @@
 
                 <TextView
                     android:id="@+id/temperature"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="36dp"
                     android:background="@null"
-                    android:ems="10"
                     android:text="31.3F"
                     android:textAlignment="center"
                     android:textSize="75sp"
@@ -36,11 +35,10 @@
 
                 <TextView
                     android:id="@+id/cityName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@null"
-                    android:ems="10"
                     android:text="Warsaw"
                     android:textAlignment="center"
                     android:textSize="30sp"
@@ -62,11 +60,10 @@
 
                 <TextView
                     android:id="@+id/weatherType"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"
                     android:background="@null"
-                    android:ems="10"
                     android:text="Sunny"
                     android:textAlignment="center"
                     android:textSize="20sp"
@@ -76,11 +73,10 @@
 
                 <TextView
                     android:id="@+id/todayForecastText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     android:background="@null"
-                    android:ems="10"
                     android:text="Next Day Forecast"
                     android:textAlignment="center"
                     android:textStyle="bold"
@@ -97,9 +93,10 @@
                 android:layout_marginEnd="22dp"
                 android:layout_alignEnd="@id/weatherDetails"
                 android:layout_alignBottom="@id/weatherDetails"
-                app:backgroundTint="@color/purple_500"
-                android:src="@drawable/ic_baseline_star_outline_24"
+                android:src="@drawable/ic_baseline_star_outline_100"
                 android:tag="outline"
+                app:backgroundTint="@color/purple_500"
+                app:maxImageSize="30dp"
                 />
 
         </RelativeLayout>

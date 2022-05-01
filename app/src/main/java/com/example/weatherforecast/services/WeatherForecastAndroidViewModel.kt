@@ -164,7 +164,9 @@ class WeatherForecastAndroidViewModel(application: Application) : AndroidViewMod
                                 WeatherDetailsContent(it2, locationName, units)
                             when (requestType) {
                                 RequestType.DEFAULT -> {
-                                    if (defaultLocation.value!!.locationName == currentSearchLocation.value!!.locationName) {
+                                    if (defaultLocation.value != null
+                                        && currentSearchLocation.value != null
+                                        && defaultLocation.value!!.locationName == currentSearchLocation.value!!.locationName) {
                                         currentSearchLocation.value = weatherDetails
                                     }
                                     defaultLocation.value = weatherDetails

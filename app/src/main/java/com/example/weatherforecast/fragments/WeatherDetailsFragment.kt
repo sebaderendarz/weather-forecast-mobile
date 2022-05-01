@@ -60,12 +60,12 @@ class WeatherDetailsFragment : Fragment() {
     }
 
     private fun setFullStarButton() {
-        binding.favouriteButton.setImageResource(R.drawable.ic_baseline_star_24)
+        binding.favouriteButton.setImageResource(R.drawable.ic_baseline_star_100)
         binding.favouriteButton.tag = "full"
     }
 
     private fun setOutlinedStarButton() {
-        binding.favouriteButton.setImageResource(R.drawable.ic_baseline_star_outline_24)
+        binding.favouriteButton.setImageResource(R.drawable.ic_baseline_star_outline_100)
         binding.favouriteButton.tag = "outline"
     }
 
